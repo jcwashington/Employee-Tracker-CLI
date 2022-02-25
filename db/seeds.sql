@@ -1,5 +1,5 @@
-INSERT INTO department (name)
-VALUES ('Product Development'), ('Marketing'), ('Human Resources') , ('Executives'), ('Customer Support');
+
+INSERT INTO departments (dept_name) VALUES ('Product Development'), ('Marketing'), ('Human Resources') , ('Executives'), ('Customer Support');
 
 INSERT INTO roles (title, salary, dept_id)
 VALUES ('Project Owner', 95000, 1), 
