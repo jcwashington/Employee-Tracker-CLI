@@ -65,7 +65,7 @@
   ![Once you have created a new role, let's create an employee to fill it](./Assets/add-new-employee.gif)
   - Update employee's role
 
-  For a complete walk through of the CLI tool, you can find a video here: [Employee Tracking CLI tool]()
+  For a complete walk through of the CLI tool, you can find a video here: [Employee Tracking CLI tool](https://drive.google.com/file/d/1QX-ZAc_Zynd45dC1v5og1ZvQB-W-5PmF/view)
 
   
   ### [Visuals](#visuals)
