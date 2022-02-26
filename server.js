@@ -38,9 +38,14 @@ initQuery = () => {
             'View all roles',
             'View all employees',
             'View employees by department',
+            // 'View employees by manager',
+            // 'View department budget',
             'Add a new department',
             'Add a new role',
             'Add a new employee',
+            // 'Delete a department',
+            // 'Delete a role',
+            // 'Delete an employee',
             'Update an employee role',
             'Exit'
         ]
