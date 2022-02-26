@@ -37,6 +37,7 @@ initQuery = () => {
             'View all departments',
             'View all roles',
             'View all employees',
+            'View employees by department',
             'Add a new department',
             'Add a new role',
             'Add a new employee',
@@ -54,6 +55,9 @@ initQuery = () => {
                 break;
             case 'View all employees':
                 viewEmployees();
+                break;
+            case 'View employees by department':
+                viewEmployeesByDepartment();
                 break;
             case 'Add a new department':
                 addDepartment();
@@ -96,6 +100,34 @@ viewEmployees = () => {
         initQuery();
     })
 }
+
+viewEmployeesByDepartment = () => {
+    // collect departments
+    db.query(`SELECT * FROM departments`, (err, res) => {
+        if (err) throw err;
+        const deptList = res.map( dept => (
+            {
+                name: dept.dept_name,
+                value: dept.dept_id
+            }
+        ))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'chosenDept',
+                message: 'Which department would you like to see the employees for? ',
+                choices: deptList
+            }]
+            ).then((answer) => {
+                db.query(`SELECT employees.first_name, employees.last_name,  roles.title FROM roles INNER JOIN employees ON employees.role_id = roles.role_id WHERE roles.dept_id = ${answer.chosenDept}`, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                    initQuery();
+            })
+        });
+    });
+}
+
 
 addDepartment = () => {
     inquirer.prompt({
