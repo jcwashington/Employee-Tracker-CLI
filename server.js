@@ -128,7 +128,6 @@ viewEmployeesByDepartment = () => {
     });
 }
 
-
 addDepartment = () => {
     inquirer.prompt({
         type: 'input',
@@ -314,3 +313,23 @@ exitApp = () => {
     db.end();
     process.exit();
 }
+
+// Future functionality ideas
+// viewEmployeesByManager = () => {
+
+// }
+// updateEmployeeManager = () => {
+
+// }
+// deleteRole = () => {
+
+// }
+// deleteEmployee = () => {
+    
+// }
+// deleteDepartment = () => {
+    
+// }
+// viewDeptBudget = () => {
+
+// }
