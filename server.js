@@ -237,23 +237,33 @@ addEmployee = () => {
                 if (answer.has_manager){
                     db.query(`SELECT * FROM employees`, (err, res) => {
                         if (err) throw err;
-                        const employees = res.map(employee => ({
-                            name : employee.first_name,
-                            value: employee.emp_id
-                        }))
+                        let allEmployees = res;
+                        let employeeNames = [];
+                        allEmployees.forEach((el) => {
+                            let employeeFullName = `${el.first_name} ${el.last_name}`
+                            employeeNames.push(employeeFullName);
+                        })
                         inquirer.prompt([
                             {
                                 type: 'list',
-                                name: 'manager_id',
+                                name: 'managerName',
                                 message: 'Who is their manager? ',
-                                choices: employees
+                                choices: employeeNames
                             }
                         ]).then((answer) => {
-                            const manager_id = answer.manager_id;
-                            db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${employeeFirstName}', '${employeeLastName}', ${roleId}, ${manager_id})`, (err, res) => {
-                                if (err) throw err; 
-                                console.log(`Successfully added new employee ${employeeFirstName} ${employeeLastName}`);
-                                initQuery();
+                            const seperateName = answer.managerName.split(' ');
+                            db.query(`SELECT emp_id FROM employees WHERE first_name = '${seperateName[0]}'`, (err, res) => {
+                                if (err) throw err;
+                                const manager_id = res[0].emp_id;
+                                db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${employeeFirstName}', '${employeeLastName}', ${roleId}, ${manager_id})`, (err, res) => {
+                                    if (err) throw err; 
+                                    console.log(`Successfully added new employee ${employeeFirstName} ${employeeLastName}`);
+                                    db.query(`SELECT emp_id, first_name, last_name FROM employees WHERE first_name = '${employeeFirstName}'`, (err, res) => {
+                                        if (err) throw err;
+                                        console.table(res);
+                                    initQuery();
+                                    })
+                                })
                             })
                         })
                     })
@@ -277,7 +287,6 @@ updateEmployeeRole = () => {
             let employeeFullName = `${el.first_name} ${el.last_name}`
             employeeNames.push(employeeFullName);
         })
-        console.log(employeeNames);
         db.query( `SELECT * FROM roles`, (err, res) => {
             if (err) throw err;
             const roleList = res.map(role => (
