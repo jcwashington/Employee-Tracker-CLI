@@ -18,12 +18,12 @@ VALUES ('Project Owner', 95000, 1),
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES 
 ('Nolan', 'Dill', 1, 2),
-('Rachel', 'Duke', 2, 8),
-('Alan', 'Boggs', 3, null),
-('Carolyn', 'Brungardt', 4, 3),
+('Rachel', 'Duke', 2, 7),
+('Alan', 'Boggs', 3, 7),
+('Carolyn', 'Brungardt', 4, 2),
 ('Jack','Fulton', 6, null),
-('Harriet','Booth', 7, 6),
+('Harriet','Booth', 7, 5),
 ('Pamela', 'Rios', 8, null),
-('McKinley', 'Hildebrand', 9, null ),
-('Emma','Richard',10, null),
-('Dorian','Gray',11,10); 
+('McKinley', 'Hildebrand', 9, 7 ),
+('Emma','Richard',10, 7),
+('Dorian','Gray',11,9); 
