@@ -40,7 +40,7 @@
   source db/schema.sql
   ```
   If you would like to use the test (seed) data, execute the SQL seed file:
-    ```md
+  ```md
   source db/seeds.sql
   ```
   Run 'npm install' to install necessary dependencies. 
