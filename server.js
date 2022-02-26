@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 const { message } = require('statuses');
+const e = require('express');
 
 
 const PORT = process.env.PORT || 3001;
@@ -105,8 +106,13 @@ addDepartment = () => {
         db.query(`INSERT INTO departments (dept_name) VALUES ('${answer.dept_name}')`, (err, res) => {
             if (err) throw err;
             console.log(`Added a new department called ${answer.dept_name}`);
-            viewDepartments();
-            initQuery();
+            // show the newly updated departments
+            db.query(`SELECT * FROM departments`, (err, res) => {
+                if (err) throw err;
+                console.table(res);
+                initQuery();
+            })
+            
         })
     })
 }
@@ -145,9 +151,14 @@ addRole = () => {
             db.query(`INSERT INTO roles (title, salary, dept_id) VALUES ('${answer.title}', ${answer.salary}, ${answer.dept_id})`, (err, res) => {
                 if (err) throw err;
                 console.log(`Added a new role called ${answer.title}`);
+                //show newly updated roles table
+                db.query(`SELECT * FROM roles`, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                    // and then give initial options
+                    initQuery();
+                })
             })
-            viewRoles();
-            initQuery();
         })
     })
 }
@@ -222,7 +233,48 @@ addEmployee = () => {
 }
 
 updateEmployeeRole = () => {
-
+    db.query(`SELECT * FROM employees`, (err, res) => {
+        if (err) throw err;
+        let allEmployees = res;
+        let employeeNames = [];
+        allEmployees.forEach((el) => {
+            let employeeFullName = `${el.first_name} ${el.last_name}`
+            employeeNames.push(employeeFullName);
+        })
+        console.log(employeeNames);
+        db.query( `SELECT * FROM roles`, (err, res) => {
+            if (err) throw err;
+            const roleList = res.map(role => (
+                {
+                    name: role.title,
+                    value: role.role_id
+                })
+            )
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'fullName',
+                    message: 'Which employee\'s role would you like to update? ',
+                    choices: employeeNames
+                },
+                {
+                    type: 'list',
+                    name: 'updateRole',
+                    message: 'What is the new role? ',
+                    choices: roleList
+                }
+            ]).then((answer) => {
+                const seperateName = answer.fullName.split(' ');
+                db.query(`UPDATE employees SET role_id = ${answer.updateRole} WHERE first_name = '${seperateName[0]}'`, (err, res) => {
+                    if (err) throw err;
+                    db.query(`SELECT emp_id, first_name, last_name, role_id FROM employees WHERE first_name = '${seperateName[0]}'`, (err, res) => {
+                        console.table(res);
+                        initQuery();
+                    })
+                })
+            })
+        })
+    })
 }
 
 exitApp = () => {
