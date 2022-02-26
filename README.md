@@ -57,11 +57,14 @@
   - View all available roles
   - View all current employees
   - View employees by manager
+  
   ![Filter your employees based on their assigned manager](./Assets/view-employees-by-dept.gif)
   - Add a new department
   - Add a new role
+  
   ![Create a new role by assigning a title, salary and department](./Assets/add-new-role.gif)
   - Add a new employee
+  
   ![Once you have created a new role, let's create an employee to fill it](./Assets/add-new-employee.gif)
   - Update employee's role
 
